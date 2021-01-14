@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>DrWhistle.Domain</RootNamespace>
+    <AssemblyName>DrWhistle.Domain</AssemblyName>
+  </PropertyGroup>
+
+</Project>
