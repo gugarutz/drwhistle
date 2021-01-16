@@ -1,40 +1,42 @@
-﻿using DrWhistle.Application.Cases.Queries.GetCases;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using DrWhistle.Application.Cases.Queries.GetCases;
 using DrWhistle.Application.Common.Interfaces;
 using DrWhistle.Domain.Entities;
-using DrWhistle.Domain.Events;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace DrWhistle.Application.Cases.Commands.CreateCase
 {
     public class CreateCaseCommand : IRequest<int>
     {
-        public CaseDto caseDto;
-        public CreateCaseCommand(CaseDto _caseDto)
+        public CreateCaseCommand(CaseDto caseDto)
         {
-            caseDto = _caseDto;
+            this.CaseDto = caseDto;
         }
+
+        public CaseDto CaseDto { get; set; }
     }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:File may only contain a single type", Justification = "<>")]
     public class CreateCaseCommandHandler : IRequestHandler<CreateCaseCommand, int>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IApplicationDbContext context;
 
         public CreateCaseCommandHandler(IApplicationDbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public async Task<int> Handle(CreateCaseCommand request, CancellationToken cancellationToken)
         {
             var entity = new Case
             {
-                Title = request.caseDto.Title
+                Title = request.CaseDto.Title
             };
 
-            _context.Cases.Add(entity);
+            context.Cases.Add(entity);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
             return entity.Id;
         }

@@ -1,8 +1,5 @@
 ﻿using DrWhistle.Domain.Common;
 using DrWhistle.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DrWhistle.Domain.Events
 {

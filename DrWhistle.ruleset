@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Rules for Epam.Wfh" Description="Code analysis rules for Epam.Wfh" ToolsVersion="16.0">
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA1200" Action="None" />
+    <Rule Id="CA1801" Action="Warning" />
+    <Rule Id="CA1804" Action="Warning" />
+    <Rule Id="CA1811" Action="Warning" />
+    <Rule Id="CA1812" Action="Warning" />
+    <Rule Id="CA1823" Action="Warning" />
+  </Rules>
+  <Rules AnalyzerId="Microsoft.Analyzers.NativeCodeAnalysis" RuleNamespace="Microsoft.Rules.Native">
+    <Rule Id="C6259" Action="Warning" />
+  </Rules>
+  <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp" RuleNamespace="Microsoft.CodeAnalysis.CSharp">
+    <Rule Id="CS1062" Action="None" />
+    <Rule Id="CS1591" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.CodeStyle" RuleNamespace="Microsoft.CodeAnalysis.CSharp.CodeStyle">
+    <Rule Id="IDE0055" Action="Warning" />
+  </Rules>
+  <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
+    <Rule Id="CA1031" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="Microsoft.NetCore.Analyzers" RuleNamespace="Microsoft.NetCore.Analyzers">
+    <Rule Id="CA1826" Action="Warning" />
+    <Rule Id="CA2000" Action="Hidden" />
+    <Rule Id="CA2213" Action="Warning" />
+  </Rules>
+  <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
+    <Rule Id="S101" Action="None" />
+    <Rule Id="S1066" Action="None" />
+    <Rule Id="S1075" Action="Hidden" />
+    <Rule Id="S108" Action="Hidden" />
+    <Rule Id="S112" Action="None" />
+    <Rule Id="S1125" Action="Hidden" />
+    <Rule Id="S1128" Action="Hidden" />
+    <Rule Id="S1135" Action="Info" />
+    <Rule Id="S125" Action="Hidden" />
+    <Rule Id="S1939" Action="Hidden" />
+    <Rule Id="S2344" Action="Hidden" />
+    <Rule Id="S3241" Action="Hidden" />
+    <Rule Id="S3928" Action="Hidden" />
+    <Rule Id="S4070" Action="Hidden" />
+    <Rule Id="S4136" Action="Hidden" />
+    <Rule Id="S4457" Action="Hidden" />
+  </Rules>
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA1101" Action="Hidden" />
+    <Rule Id="SA1123" Action="Hidden" />
+    <Rule Id="SA1124" Action="Hidden" />
+    <Rule Id="SA1413" Action="Hidden" />
+    <Rule Id="SA1600" Action="Hidden" />
+    <Rule Id="SA1609" Action="Warning" />
+    <Rule Id="SA1615" Action="Info" />
+    <Rule Id="SA1629" Action="Hidden" />
+    <Rule Id="SA1633" Action="Hidden" />
+    <Rule Id="SA1634" Action="Hidden" />
+    <Rule Id="SA1636" Action="Hidden" />
+    <Rule Id="SA1638" Action="Hidden" />
+    <Rule Id="SA1641" Action="Hidden" />
+  </Rules>
+</RuleSet>

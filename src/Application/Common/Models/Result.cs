@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DrWhistle.Application.Common.Models
 {
@@ -23,6 +21,11 @@ namespace DrWhistle.Application.Common.Models
         }
 
         public static Result Failure(IEnumerable<string> errors)
+        {
+            return new Result(false, errors);
+        }
+
+        public static Result Failure(params string[] errors)
         {
             return new Result(false, errors);
         }

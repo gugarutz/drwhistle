@@ -1,14 +1,10 @@
-﻿using DrWhistle.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using DrWhistle.Domain.Common;
 
 namespace DrWhistle.Domain.Entities
 {
     public class Case : AuditableEntity
     {
-        public int Id { get; set; }
-
         public string Title { get; set; }
 
         public IList<Message> Messages { get; private set; } = new List<Message>();
