@@ -56,6 +56,12 @@ namespace DrWhistle.WebUI.Controllers
         }
 
         [Authorize]
+        public IActionResult Authenticate()
+        {
+            return RedirectToAction("Index");
+        }
+
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
