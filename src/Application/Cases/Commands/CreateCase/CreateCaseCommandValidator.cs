@@ -6,7 +6,7 @@ namespace DrWhistle.Application.Cases.Commands.CreateCase
     {
         public CreateCaseCommandValidator()
         {
-            RuleFor(c => c.caseDto.Title)
+            RuleFor(c => c.CaseDto.Title)
                 .MaximumLength(150)
                 .NotEmpty();
         }

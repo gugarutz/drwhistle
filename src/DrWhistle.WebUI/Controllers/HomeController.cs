@@ -1,4 +1,8 @@
-﻿using DrWhistle.WebUI.Models;
+﻿using System.Diagnostics;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using DrWhistle.Infrastructure.Identity;
+using DrWhistle.WebUI.Models;
 using Finbuckle.MultiTenant;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -7,26 +11,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace DrWhistle.WebUI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> logger;
 
         public HomeController(ILogger<HomeController> logger)
         {
-            _logger = logger;
+            this.logger = logger;
         }
+
         public IActionResult Index()
         {
-            var ti = HttpContext.GetMultiTenantContext<SampleTenantInfo>()?.TenantInfo;
+            var ti = HttpContext.GetMultiTenantContext<Tenant>()?.TenantInfo;
             var title = (ti?.Name ?? "No tenant") + " - ";
 
             ViewData["style"] = "navbar-light bg-light";
@@ -62,21 +61,7 @@ namespace DrWhistle.WebUI.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Login()
-        {
-            await HttpContext.SignOutAsync();
-            await HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, "Username") }, "Cookies")));
-
-            return RedirectToAction("Index");
-        }
-
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync();
-
-            return RedirectToAction("Index");
-        }
-
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();

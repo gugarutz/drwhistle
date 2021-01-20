@@ -22,13 +22,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" href="@Url.Action("Privacy", "Home")">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-route-__tenant__="acme" class="nav-item nav-link">ACME</a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-route-__tenant__="initech" class="nav-item nav-link">Initech</a>
+                            <a asp-route-__tenant__="acme" asp- class="nav-item nav-link">ACME</a>
                         </li>
                         <li class="nav-item">
                             <a asp-route-__tenant__="megacorp" class="nav-item nav-link">MegaCorp</a>

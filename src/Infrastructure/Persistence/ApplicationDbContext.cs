@@ -1,54 +1,69 @@
-﻿using DrWhistle.Application.Common.Interfaces;
-using DrWhistle.Domain.Common;
-using DrWhistle.Domain.Entities;
-using Finbuckle.MultiTenant;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using DrWhistle.Application.Common.Interfaces;
+using DrWhistle.Domain.Common;
+using DrWhistle.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace DrWhistle.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : MultiTenantIdentityDbContext, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Role, int>, IApplicationDbContext
     {
+        private readonly ICurrentUserService currentUserService;
+        private readonly IDateTime dateTime;
+
+        public ApplicationDbContext(
+            DbContextOptions<ApplicationDbContext> options,
+            ICurrentUserService currentUserService,
+            IDateTime dateTime)
+            : base(options)
+        {
+            this.currentUserService = currentUserService;
+            this.dateTime = dateTime;
+        }
+
+        internal ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
+
         public DbSet<Case> Cases { get; set; }
 
         public DbSet<Message> Messages { get; set; }
 
-        public ApplicationDbContext(ITenantInfo tenantInfo) : base(tenantInfo)
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-        }
-
-        public ApplicationDbContext(ITenantInfo tenantInfo, DbContextOptions<ApplicationDbContext> options)
-            : base(tenantInfo, options)
-        {
-        }
-
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
-        {
-            foreach (Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<AuditableEntity> entry in ChangeTracker.Entries<AuditableEntity>())
+            foreach (var entry in ChangeTracker.Entries<IAuditableEntity>())
             {
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.Created = DateTime.Now;
+                        entry.Entity.CreatedBy = currentUserService.UserId;
+                        entry.Entity.CreatedOn = dateTime.Now.ToUniversalTime();
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.LastModified = DateTime.Now;
+                        entry.Entity.LastModifiedBy = currentUserService.UserId;
+                        entry.Entity.LastModifiedOn = dateTime.Now.ToUniversalTime();
                         break;
                 }
             }
 
-            var result = await base.SaveChangesAsync(cancellationToken);
-
-            return result;
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            optionsBuilder.UseSqlServer(TenantInfo.ConnectionString);
-            base.OnConfiguring(optionsBuilder);
+            return SaveChangesAsync(true, cancellationToken);
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            base.OnModelCreating(builder);
         }
     }
 }
